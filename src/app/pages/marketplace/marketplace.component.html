@@ -1,0 +1,47 @@
+<app-maincontainer>
+  <div class="lg:grid lg:grid-cols-8 gap-4">
+    <div class="col-span-5 xl:col-span-6 2xl:col-span-6">
+      <!-- <h1>Market Trends</h1> -->
+      <!-- <div
+        class="relative pt-8 min-w-0 h-48 break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border"
+      >
+        <p-carousel   styleClass="carousel"
+          [value]="products"
+          [numVisible]="3"
+          [numScroll]="3"
+          [circular]="false"
+          [responsiveOptions]="responsiveOptions"
+        >
+          <ng-template let-product pTemplate="item">
+            <app-productcard [product]="product"></app-productcard>
+          </ng-template>
+        </p-carousel>
+      </div> -->
+      <div
+        class="relative pt-8 min-w-0 h-48 break-words bg-white dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border"
+      >
+        <p-carousel
+          styleClass="carousel"
+          [value]="products"
+          [numVisible]="3"
+          [numScroll]="3"
+          [circular]="false"
+          [responsiveOptions]="responsiveOptions"
+        >
+          <ng-template let-product pTemplate="item">
+            <app-productcard [product]="product"></app-productcard>
+          </ng-template>
+        </p-carousel>
+      </div>
+      <app-productsgraph></app-productsgraph>
+    </div>
+
+    <div class="mt-10 lg:mt-0 lg:col-span-3 xl:col-span-2 2xl:col-span-2">
+      <div
+        class="relative px-4 md:px-32 lg:px-4 3xl:px-12 flex flex-col min-w-0  break-words bg-white shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border pt-4 pb-12"
+      >
+        <app-orderform></app-orderform>
+      </div>
+    </div>
+  </div>
+</app-maincontainer>

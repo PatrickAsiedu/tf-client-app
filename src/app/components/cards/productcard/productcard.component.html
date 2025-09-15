@@ -1,0 +1,25 @@
+<div class="px-4 border rounded-md py-2  ">
+  <div class="flex justify-between">
+    <div class="flex items-center space-x-6">
+<div class="bg-gray-100 p-2 w-12 h-12 rounded-md flex items-center justify-center">      <img [src]="product.icon" class="" alt="" /></div>
+      <h1 class="font-semibold">{{ product.name }}</h1>
+    </div>
+    <h1></h1>
+
+    <!-- <div>@if(product.ticker === 'mm'){<app-microsoft></app-microsoft>}</div> -->
+  </div>
+  <div class="flex justify-between mt-8">
+    <div>
+      <h2 class="text-xs text-gray-400">Current Value</h2>
+      <h1 class="font-semibold text-xl">${{product.lastTradedPrice?.toFixed(2)}}</h1>
+    </div>
+    <div class="" *ngIf="maxShift < 0">
+      <h1 class="text-xs text-gray-400">{{ product.ticker }}</h1>
+      <h1 class="text-red-400 text-xs">-{{maxShift}}</h1>
+    </div>
+    <div class="" *ngIf="maxShift > 0">
+      <h1 class="text-xs text-gray-400">{{ product.ticker }}</h1>
+      <h1 class="text-green-400 text-xs">+{{maxShift}}</h1>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<!-- mx-auto max-w-7xl -->
+<app-maincontainer>
+  <app-nongridcontainer>
+    <div class=" lg:pb-24">
+      <div class="max-w-xl">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+          Order history
+        </h1>
+        <p class="mt-2 text-sm text-gray-500">
+          Check the status of recent orders, manage returns 
+        </p>
+      </div>
+
+      <div class="mt-4">
+        <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header" let-columns>
+            <tr class="text-sm">
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Side</th>
+              <th>Type</th>
+              <th>Status</th>
+              <!-- <th>Fulfilled</th> -->
+              <th>DateCreated</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-order let-columns="columns">
+            <tr>
+              <td class="text-xs">
+                {{ order.product.ticker }}
+              </td>
+              <td class="text-xs">
+                {{ order.quantity }}
+              </td>
+              <td class="text-xs">
+                {{ order.price | currency : "USD" }}
+              </td>
+              <td class="text-xs">
+                {{ order.side }}
+              </td>
+              <td class="text-xs">
+                {{ order.type }}
+              </td>
+              <td>
+                <p-tag
+                  [value]="order.status"
+                  [severity]="getSeverity(order.status)"
+                 
+                />
+              </td>
+              <!-- <td class="text-xs">
+                {{ order.fullfilled }}
+              </td> -->
+              <td class="text-xs">
+                {{ order.createdAt | date:'mediumDate' }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+     
+    </div>
+  </app-nongridcontainer>
+</app-maincontainer>

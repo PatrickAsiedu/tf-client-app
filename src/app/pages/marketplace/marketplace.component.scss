@@ -1,0 +1,8 @@
+:host ::ng-deep {
+    .carousel {
+      &.p-carousel .p-carousel-item {
+        @apply mr-2;
+      }
+    }
+  }
+

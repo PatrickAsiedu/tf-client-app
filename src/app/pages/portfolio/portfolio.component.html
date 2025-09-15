@@ -1,0 +1,53 @@
+
+<!-- <p-confirmDialog /> -->
+
+<app-maincontainer>
+  <app-nongridcontainer>
+    <div class="w-full flex justify-between items-center mb-8  ">
+      <h1 class="font-bold text-4xl">{{portFolio.name | titlecase}}</h1>
+      
+      <button
+        [disabled]="portfolioProducts.length"
+        type="button"
+        class="block rounded-md bg-primary px-6 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >
+        Close Portfolio
+      </button>
+    </div>
+    <p-table [value]="portfolioProducts" [tableStyle]="{ 'min-width': '60rem' }">
+      <ng-template pTemplate="" >
+        <div class="flex items-center justify-between ">
+          Products
+          <p-button icon="pi pi-refresh" />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Symbol</th>
+          <th>Ticker</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <!-- <th>Reviews</th>
+          <th>Status</th> -->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-portfolioProduct>
+        <tr>
+          <td>
+            <img
+              [src]="portfolioProduct.product.logo"
+              [alt]="portfolioProduct.product.name"
+              width="100"
+              class="p-2 w-12 h-12 rounded-md flex items-center justify-center"
+            />
+          </td>
+          <td>{{ portfolioProduct.product.ticker }}</td>
+
+          <td>{{ portfolioProduct.price | currency : "USD" }}</td>
+          <td>{{ portfolioProduct.quantity }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    </app-nongridcontainer
+  >
+</app-maincontainer>

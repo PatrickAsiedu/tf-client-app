@@ -1,0 +1,271 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://172.17.0.5:8085/market-data-service",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/subscription/updates": {
+      "post": {
+        "tags": ["subscription-controller"],
+        "operationId": "updates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["product-controller"],
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{ticker}": {
+      "get": {
+        "tags": ["product-controller"],
+        "operationId": "getProductByTicker",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["product-controller"],
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product-history/:productId": {
+      "get": {
+        "tags": ["product-history-controller"],
+        "operationId": "getProductHistories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductHistory"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WebhookDTO": {
+        "type": "object",
+        "properties": {
+          "orderType": {
+            "type": "string",
+            "enum": ["LIMIT", "MARKET"]
+          },
+          "product": {
+            "type": "string"
+          },
+          "side": {
+            "type": "string",
+            "enum": ["SELL", "BUY"]
+          },
+          "orderID": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "qty": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cumQty": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cumPrx": {
+            "type": "number",
+            "format": "double"
+          },
+          "exchange": {
+            "type": "string",
+            "enum": ["MAL1", "MAL2"]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          },
+          "buyLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sellLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastTradedPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "askPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "bidPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxShiftPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "trading": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProductHistory": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "string"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "buyLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sellLimit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastTradedPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "askPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "bidPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxShiftPrice": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    }
+  }
+}

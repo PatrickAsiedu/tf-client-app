@@ -1,0 +1,7 @@
+:host ::ng-deep {
+  .dropdown {
+    &.p-dropdown .p-dropdown-label.p-placeholder {
+      @apply text-sm;
+    }
+  }
+}

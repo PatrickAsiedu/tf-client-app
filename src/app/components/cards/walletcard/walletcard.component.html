@@ -1,0 +1,10 @@
+<div
+  class="bg-primary hover:bg-primary-light hover:cursor-pointer text-white pt-6 relative flex-col hidden lg:block min-w-0 h-48 break-words shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border"
+>
+  <h1 class="text-center text-xs">My Wallet</h1>
+  <h1 class="text-4xl font-bold text-center mt-6"> {{ balance | currency : "USD" }}</h1>
+  <div class="flex justify-center mt-4 space-x-4">
+    <button class="rounded-full h-12 w-12 bg-white text-primary text-xl" (click)="showWalletForm()" ><fa-icon [icon]="faMinus"></fa-icon></button>
+    <button class="rounded-full h-12 w-12 bg-white text-primary text-xl" (click)="showWalletForm()"><fa-icon [icon]="faPlus"></fa-icon></button>
+  </div>
+</div>

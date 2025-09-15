@@ -1,0 +1,11 @@
+:host ::ng-deep {
+    .message {
+      &.p-messages  {
+          font-size: 0.875rem; /* Make text smaller */
+    padding: 0.5rem;     /* Reduce padding */
+    margin: 0.5rem 0;
+    
+      }
+    }
+  }
+
