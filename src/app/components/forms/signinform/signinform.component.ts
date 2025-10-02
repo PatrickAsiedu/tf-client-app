@@ -44,13 +44,13 @@ export class SigninformComponent {
       error: (error) => {
         if (error.status === 401) {
           this.messages = [
-            { severity: 'error', detail: error.error.description },
+            { severity: 'error', detail: error.error.detail },
             
           ];
           this.isLoading = false;
         } else if (error.status === 403) {
           this.messages = [
-            { severity: 'error', detail: error.error.description },
+            { severity: 'error', detail: error.error.detail },
           ];
           this.isLoading = false;
         } else {

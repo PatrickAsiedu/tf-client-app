@@ -40,7 +40,7 @@ export class SignupformComponent {
       error: (error) => {
         if (error.status === 409) {
           this.messages = [
-            { severity: 'error', detail: error.error.description },
+            { severity: 'error', detail: error.error.detail },
           ];
           this.isLoading = false;
         } else {
