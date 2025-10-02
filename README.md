@@ -1,27 +1,57 @@
-# TfClientApp
+# TradeFlow
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.2.
+## Description
 
-## Development server
+TradeFlow is a comprehensive trading engine web application that enables users to monitor real-time stock market trends, manage portfolios, and execute trades across multiple exchanges to achieve optimal market value. It was built with a micro-service architecture using Spring boot, Angular and Kafka for communication between services.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Motivation
 
-## Code scaffolding
+The motivation behind TradeFlow is to empower users with a secure, intuitive, and feature-rich interface for managing trades, portfolios, and market insights. By leveraging cutting-edge technologies and best practices, the project aims to deliver reliability, scalability, and a superior user experience in the financial technology space.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Quick Start
 
-## Build
+### Visit the Live Demo OR Skip to Installation Guide
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+You can access the live demo version of Tradeflow here:  
+[https://tf-client-app.vercel.app](https://tf-client-app.vercel.app/)
 
-## Running unit tests
+### Installation Guide
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **Clone the repository:**
 
-## Running end-to-end tests
+   ```bash
+   git clone https://github.com/PatrickAsiedu/tf_client_app.git
+   cd tf-client-app
+   ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Start the development server:**
+   ```bash
+   npm start
+   ```
+4. **Access the app:**
+   Open your browser and navigate to `http://localhost:4200`.
 
-## Further help
+5. **Setup other services**
+   API gateway
+   [https://github.com/PatrickAsiedu/tf-api-gateway-service](https://github.com/PatrickAsiedu/tf-api-gateway-service)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+   User Service
+   [https://github.com/PatrickAsiedu/tf-user-service](https://github.com/PatrickAsiedu/tf-user-service)
+
+   Order Service
+   [https://github.com/PatrickAsiedu/tf-order-service](https://github.com/PatrickAsiedu/tf-order-service)
+
+   Market Data Service
+   [https://github.com/PatrickAsiedu/tf-market-data-service](https://github.com/PatrickAsiedu/tf-market-data-service)
+
+## Usage
+
+- **Sign Up / Sign In:** Create an account or log in to access personalized features.
+- **Marketplace:** Browse and trade products with real-time updates.
+- **Portfolio Management:** Track your investments.
+- **Order Management:** Place, view, and manage orders efficiently.
+- **Admin Panel:** (If authorized) Access administrative tools and user management.
