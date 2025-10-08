@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseURL: 'https://api.tradeflows.app',
-  webSockerUrl:'ws://194.29.101.66:8085'
+  baseURL: 'http://13.51.13.29:8081',
+  webSocketUrl: 'ws://13.51.13.29:8081',
 };
