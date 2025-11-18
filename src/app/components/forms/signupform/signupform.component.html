@@ -1,10 +1,15 @@
-<p-messages styleClass="message text-xs" [(value)]="messages" [enableService]="false" />
+<p-messages
+  styleClass="message text-xs"
+  [(value)]="messages"
+  [enableService]="false"
+/>
 <div class="mx-auto w-full max-w-sm pb-12 lg:w-96 px-8">
   <div>
-    <div class="flex items-center  space-x-2">
+    <div class="flex items-center space-x-2">
       <app-logo [logoStyles]="logoStyles"></app-logo>
       <span class="text-xl font-bold"
-        >TRADE<span class="text-xl font-bold text-blue-600">FLOW</span></span>
+        >TRADE<span class="text-xl font-bold text-blue-600">FLOW</span></span
+      >
     </div>
     <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
       Signup for an account
@@ -13,7 +18,7 @@
 
   <div class="mt-10">
     <div>
-      <form class="space-y-4" (ngSubmit)="signup($event)">
+      <form class="space-y-4" #f="ngForm" (ngSubmit)="signup(f)">
         <div>
           <label
             for="email"
@@ -28,8 +33,21 @@
               type="email"
               autocomplete="email"
               required
+              #emailModel="ngModel"
+              [ngClass]="{
+                'border-red-500':
+                  emailModel.invalid && (emailModel.dirty || emailModel.touched)
+              }"
               class="px-4 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
+            <p
+              *ngIf="
+                emailModel.invalid && (emailModel.dirty || emailModel.touched)
+              "
+              class="mt-1 text-xs text-red-600"
+            >
+              Please enter a valid email address.
+            </p>
           </div>
         </div>
         <div>
@@ -43,11 +61,30 @@
               [(ngModel)]="name"
               id="name"
               name="name"
-              type="name"
+              type="text"
               autocomplete="name"
               required
+              minlength="2"
+              #nameModel="ngModel"
+              [ngClass]="{
+                'border-red-500':
+                  nameModel.invalid && (nameModel.dirty || nameModel.touched)
+              }"
               class="px-4 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
+            <p
+              *ngIf="
+                nameModel.invalid && (nameModel.dirty || nameModel.touched)
+              "
+              class="mt-1 text-xs text-red-600"
+            >
+              <span *ngIf="nameModel.errors?.['required']"
+                >Name is required.</span
+              >
+              <span *ngIf="nameModel.errors?.['minlength']"
+                >Name must be at least 2 characters.</span
+              >
+            </p>
           </div>
         </div>
 
@@ -65,8 +102,29 @@
               type="password"
               autocomplete="current-password"
               required
+              minlength="8"
+              #passwordModel="ngModel"
+              [ngClass]="{
+                'border-red-500':
+                  passwordModel.invalid &&
+                  (passwordModel.dirty || passwordModel.touched)
+              }"
               class="px-4 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
+            <p
+              *ngIf="
+                passwordModel.invalid &&
+                (passwordModel.dirty || passwordModel.touched)
+              "
+              class="mt-1 text-xs text-red-600"
+            >
+              <span *ngIf="passwordModel.errors?.['required']"
+                >Password is required.</span
+              >
+              <span *ngIf="passwordModel.errors?.['minlength']"
+                >Password must be at least 8 characters.</span
+              >
+            </p>
           </div>
         </div>
 
@@ -75,10 +133,13 @@
         <div>
           <button
             type="submit"
-            class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            [disabled]="f.invalid || isLoading"
+            class="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
           >
-          @if(isLoading){ <app-spinner></app-spinner>}
-          @else{ Sign up}
+            <ng-container *ngIf="isLoading; else text">
+              <app-spinner></app-spinner>
+            </ng-container>
+            <ng-template #text>Sign up</ng-template>
           </button>
         </div>
       </form>
