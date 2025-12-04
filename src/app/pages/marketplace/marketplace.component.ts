@@ -54,7 +54,7 @@ export class MarketplaceComponent implements OnInit {
           name: this.productservice.addNameToProducts(p.ticker as string),
         })).sort((a, b) => Number(b?.lastTradedPrice) - Number(a?.lastTradedPrice));
 
-        console.log(this.products);
+        // console.log(this.products);
       },
       error: (error) => {
         if (error.status === 404) {

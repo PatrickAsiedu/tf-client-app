@@ -161,7 +161,7 @@ export class DashboardComponent implements OnInit {
             },
           ];
 
-          console.log(filteredOrders.openOrders.length);
+          // console.log(filteredOrders.openOrders.length);
         },
         error: (error) => {
           console.log(error);

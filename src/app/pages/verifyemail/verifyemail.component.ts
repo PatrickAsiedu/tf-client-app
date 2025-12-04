@@ -23,7 +23,7 @@ export class VerifyemailComponent implements OnInit {
 
     this.authService.verifyEmail(this.token as string).subscribe({
       next: (result) => {
-        console.log(result);
+        // console.log(result);
         this.router.navigate(['/signin']);
       },
       error: (error) => {

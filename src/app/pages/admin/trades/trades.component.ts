@@ -28,7 +28,7 @@ export class TradesComponent implements OnInit {
       .subscribe({
         next: (result) => {
           // this.orders = result;
-          console.log(this.orders)
+          // console.log(this.orders)
         },
         error: (error) => {
           if (error.status === 404) {
