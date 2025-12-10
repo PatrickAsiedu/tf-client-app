@@ -61,13 +61,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getAccountBalance();
     this.getUserOrderData();
-    this.websockectService.getMessages().subscribe({
-      next: () => {
-        this.getAccountBalance();
-        this.getUserOrderData();
-      }
-    })
-    this.cdr.detectChanges();
+    // this.websockectService.getMessages().subscribe({
+    //   next: () => {
+    //     this.getAccountBalance();
+    //     this.getUserOrderData();
+    //   }
+    // })
+    // this.cdr.detectChanges();
   }
 
   showDialog: boolean = false;

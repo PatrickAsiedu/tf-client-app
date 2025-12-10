@@ -19,7 +19,18 @@ import {
   ProductHistory,
   ProductHistoryGraphData,
 } from '../../../models/product-history';
-import { forkJoin, map, Observable, switchMap, interval, of, catchError, throwError, Subscription, subscribeOn } from 'rxjs';
+import {
+  forkJoin,
+  map,
+  Observable,
+  switchMap,
+  interval,
+  of,
+  catchError,
+  throwError,
+  Subscription,
+  subscribeOn,
+} from 'rxjs';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { WebsocketService } from '../../../services/websocket.service';
 
@@ -45,38 +56,83 @@ export type ChartOptions = {
 })
 export class ProductsgraphComponent {
   constructor(
-    private cdr: ChangeDetectorRef, 
-    private productservice: ProductService, 
+    private cdr: ChangeDetectorRef,
+    private productservice: ProductService,
     private websocketservice: WebsocketService
   ) {}
   isLoading = false;
 
   ngOnInit() {
+    // Fetch initial chart data
+    this.fetchProductChartData();
+
+    // Subscribe to websocket messages and append data instead of refetching
     this.websocketservice.getMessages().subscribe({
-      next: () => {
-        this.fetchProductChartData();
-      }
-    })
-    this.fetchProductChartData()
+      next: (message) => {
+        this.handleWebsocketMessage(message);
+      },
+      error: (err) => console.error('WebSocket error:', err),
+    });
+
     this.cdr.detectChanges();
   }
 
+  /**
+   * Handle incoming websocket message and append data to chart
+   * Message format: {"id": "...", "ticker": "MSFT", "lastTradedPrice": 0.11, ...}
+   */
+  handleWebsocketMessage(message: any) {
+    if (message && message.ticker && message.lastTradedPrice !== undefined) {
+      this.appendDataToChart(message.ticker, message.lastTradedPrice);
+    }
+  }
 
+  /**
+   * Append new data point to matching series in chart
+   * @param ticker - Stock ticker symbol (e.g., "MSFT")
+   * @param price - Last traded price to append
+   */
+  appendDataToChart(ticker: string, price: number) {
+    if (!this.chartOptions.series || this.chartOptions.series.length === 0) {
+      return;
+    }
 
-  fetchProductChartData(){
+    // Find series matching the ticker
+    const series = this.chartOptions.series as any[];
+    const matchingSeries = series.find((s) => s.name === ticker);
+
+    if (matchingSeries && matchingSeries.data) {
+      // Create new data point with current timestamp and price
+      const timestamp = new Date().toISOString();
+      const newDataPoint: [string, number] = [timestamp, price];
+
+      // Append to existing data
+      matchingSeries.data.push(newDataPoint);
+
+      // Update chartOptions.series to trigger change detection
+      this.chartOptions = {
+        ...this.chartOptions,
+        series: [...series],
+      };
+
+      // Trigger change detection to update chart
+      this.cdr.markForCheck();
+    }
+  }
+
+  fetchProductChartData() {
     this.productservice.getChartData().subscribe({
       next: (data) => {
         this.chartOptions = {
           ...this.chartOptions,
           series: data as any,
         };
-      }
+        this.cdr.markForCheck();
+      },
     });
   }
 
-  
-
-  public chartOptions:ChartOptions = {
+  public chartOptions: ChartOptions = {
     chart: {
       height: '250',
       type: 'area',
