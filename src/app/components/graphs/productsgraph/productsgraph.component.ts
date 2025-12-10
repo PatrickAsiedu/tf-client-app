@@ -77,21 +77,14 @@ export class ProductsgraphComponent {
     this.cdr.detectChanges();
   }
 
-  /**
-   * Handle incoming websocket message and append data to chart
-   * Message format: {"id": "...", "ticker": "MSFT", "lastTradedPrice": 0.11, ...}
-   */
+
   handleWebsocketMessage(message: any) {
     if (message && message.ticker && message.lastTradedPrice !== undefined) {
       this.appendDataToChart(message.ticker, message.lastTradedPrice);
     }
   }
 
-  /**
-   * Append new data point to matching series in chart
-   * @param ticker - Stock ticker symbol (e.g., "MSFT")
-   * @param price - Last traded price to append
-   */
+
   appendDataToChart(ticker: string, price: number) {
     if (!this.chartOptions.series || this.chartOptions.series.length === 0) {
       return;
