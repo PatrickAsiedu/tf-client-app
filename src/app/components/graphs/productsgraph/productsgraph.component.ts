@@ -14,23 +14,6 @@ import {
 } from 'ng-apexcharts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductService } from '../../../services/product.service';
-import { Product } from '../../../models/product';
-import {
-  ProductHistory,
-  ProductHistoryGraphData,
-} from '../../../models/product-history';
-import {
-  forkJoin,
-  map,
-  Observable,
-  switchMap,
-  interval,
-  of,
-  catchError,
-  throwError,
-  Subscription,
-  subscribeOn,
-} from 'rxjs';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { WebsocketService } from '../../../services/websocket.service';
 

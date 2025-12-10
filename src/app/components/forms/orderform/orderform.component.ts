@@ -88,82 +88,107 @@ export class OrderformComponent implements OnInit {
     quantity: null,
   };
 
-
-
   placeOrder(e: Event) {
     e.preventDefault();
-    console.log({});
 
+    // Validation checks
+    if (!this.formdata.selectedProduct?.ticker) {
+      this.messageservice.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please select a product',
+      });
+      return;
+    }
+
+    if (!this.formdata.selectedPortfolio?.id) {
+      this.messageservice.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please select a portfolio',
+      });
+      return;
+    }
+
+    if (!this.formdata.selectedType?.name) {
+      this.messageservice.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please select an order type (LIMIT or MARKET)',
+      });
+      return;
+    }
+
+    if (!this.formdata.selectedSide?.name) {
+      this.messageservice.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please select a side (BUY or SELL)',
+      });
+      return;
+    }
+
+    // Price is required only for LIMIT orders, not for MARKET orders
+    if (this.formdata.selectedType?.name === 'LIMIT') {
+      if (!this.formdata.price || this.formdata.price <= 0) {
+        this.messageservice.add({
+          severity: 'error',
+          summary: 'Validation Error',
+          detail: 'Please enter a valid price for LIMIT orders',
+        });
+        return;
+      }
+    }
+
+    if (!this.formdata.quantity || this.formdata.quantity <= 0) {
+      this.messageservice.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please enter a valid quantity',
+      });
+      return;
+    }
+
+    // All validation passed, proceed with order placement
     this.orderservice
       .placeOrder({
         portfolioId: this.formdata.selectedPortfolio.id,
         product: this.formdata.selectedProduct.ticker,
         type: this.formdata.selectedType.name,
         side: this.formdata.selectedSide.name,
-        price: this.formdata.price,
+        price:
+          this.formdata.selectedType.name === 'MARKET'
+            ? 0
+            : this.formdata.price,
         quantity: this.formdata.quantity,
         userId: this.authservice.getUserId(),
       })
       .subscribe({
         next: (result) => {
-          this.formdata = {
-            selectedProduct: { ticker: '' },
-            selectedPortfolio: { id: '' },
-            selectedType: { name: '' },
-            selectedSide: { name: '' },
-            price: null,
-            quantity: null,
-          };
+          // this.formdata = {
+          //   selectedProduct: { ticker: '' },
+          //   selectedPortfolio: { id: '' },
+          //   selectedType: { name: '' },
+          //   selectedSide: { name: '' },
+          //   price: null,
+          //   quantity: null,
+          // };
 
           this.messageservice.add({
             severity: 'success',
             summary: 'Success',
             detail: 'Order was placed successfully',
           });
-
         },
         error: (error) => {
-          console.log(error)
           this.messageservice.add({
             severity: 'error',
             summary: 'Error',
-            detail: `${error.error?.detail || 'Failed to place order, Try again'}`,
+            detail: `${
+              error.error?.detail || 'Failed to place order, try again'
+            }`,
           });
-          if (error.status === 404) {
-            console.error('Not Found');
-          } else {
-            console.error(error.message);
-          }
         },
       });
-
-    // this.orderservice
-    //   .placeOrder({
-    //     portfolioId: this.formdata.selectedPortfolio.id,
-    //     product: this.selectedProduct,
-    //     type: this.selectedType,
-    //     side: this.selectedSide,
-    //     price: this.price,
-    //     quantity: this.quantity,
-    //     userId: this.authservice.getUserId(),
-    //   })
-    //   .subscribe({
-    //     next: (result) => {
-    //       this.messageservice.add({
-    //         severity: 'success',
-    //         summary: 'Success',
-    //         detail: 'Order was placed successfully',
-    //       });
-    //     },
-    //     error: (error) => {
-    //       if (error.status === 404) {
-    //         console.error('Not Found');
-    //       } else {
-    //         console.error(error.message);
-    //       }
-    //     },
-    //   });
-
-    // this.orderservice.placeOrder();
   }
 }
