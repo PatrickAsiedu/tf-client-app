@@ -156,10 +156,7 @@ export class OrderformComponent implements OnInit {
         product: this.formdata.selectedProduct.ticker,
         type: this.formdata.selectedType.name,
         side: this.formdata.selectedSide.name,
-        price:
-          this.formdata.selectedType.name === 'MARKET'
-            ? 0
-            : this.formdata.price,
+        price:  this.formdata.price,
         quantity: this.formdata.quantity,
         userId: this.authservice.getUserId(),
       })
