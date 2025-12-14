@@ -16,6 +16,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ProductService } from '../../../services/product.service';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { WebsocketService } from '../../../services/websocket.service';
+import { Product } from '../../../models/product';
+import { last } from 'rxjs';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -60,13 +62,28 @@ export class ProductsgraphComponent {
     this.cdr.detectChanges();
   }
 
-
   handleWebsocketMessage(message: any) {
-    if (message && message.ticker && message.lastTradedPrice !== undefined) {
-      this.appendDataToChart(message.ticker, message.lastTradedPrice);
+    try {
+
+      if (message && message.type === 'product_update' && message.product) {
+        const product :Product = message.product;
+  
+        if (product.ticker && product.lastTradedPrice !== undefined) {
+          this.appendDataToChart(product.ticker, product.lastTradedPrice);
+          return;
+        }
+      }
+      // Backward-compatible raw message shape: { ticker, lastTradedPrice }
+      if (message && message.ticker && message.lastTradedPrice !== undefined) {
+        this.appendDataToChart(message.ticker, message.lastTradedPrice);
+      }
+    } catch (err) {
+      console.error(
+        'Error handling websocket message in ProductsgraphComponent',
+        err
+      );
     }
   }
-
 
   appendDataToChart(ticker: string, price: number) {
     if (!this.chartOptions.series || this.chartOptions.series.length === 0) {

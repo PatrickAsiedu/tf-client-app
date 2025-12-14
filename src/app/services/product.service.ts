@@ -66,7 +66,7 @@ export class ProductService {
   addNameToProducts(ticker: string) {
     const tickerNameMap: { [ticker: string]: string } = {
       MSFT: 'Microsoft',
-      NFLX: 'Netflix.com',
+      NFLX: 'Netflix',
       GOOGL: 'Google',
       AAPL: 'Apple',
       TSLA: 'Tesla',

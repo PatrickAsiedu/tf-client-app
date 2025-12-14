@@ -67,7 +67,7 @@ export class SigninformComponent {
           this.messages = [{ severity: 'error', detail: error.error.detail }];
           this.isLoading = false;
         } else {
-          console.error(error.message);
+          this.messages = [{ severity: 'error', detail: "Internal Server Error" }];
           this.isLoading = false;
         }
       },

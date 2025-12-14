@@ -15,7 +15,6 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { WebsocketService } from '../../services/websocket.service';
 
-
 @Component({
   selector: 'app-marketplace',
   standalone: true,
@@ -34,25 +33,61 @@ import { WebsocketService } from '../../services/websocket.service';
   styleUrl: './marketplace.component.scss',
 })
 export class MarketplaceComponent implements OnInit {
-  constructor(private cdr: ChangeDetectorRef, private productservice: ProductService, private webSocketService: WebsocketService) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private productservice: ProductService,
+    private webSocketService: WebsocketService
+  ) {}
 
   ngOnInit(): void {
     this.getProductData();
     this.webSocketService.getMessages().subscribe({
-      next: () => {
-        this.getProductData();
-      }
-    })
+      next: (msg) => {
+        try {
+          if (
+            msg &&
+            typeof msg === 'object' &&
+            msg.type === 'product_list' &&
+            Array.isArray(msg.productdata)
+          ) {
+            const incoming: Product[] = msg.productdata;
+
+            this.products = incoming
+              .map((p) => ({
+                ...p,
+                name: this.productservice.addNameToProducts(p.ticker as string),
+              }))
+              .sort(
+                (a, b) =>
+                  Number(b?.lastTradedPrice) - Number(a?.lastTradedPrice)
+              );
+
+            // ensure UI updates
+            this.cdr.markForCheck();
+            return;
+          }
+        } catch (err) {
+          console.error(
+            'Failed to parse websocket message for product_list:',
+            err
+          );
+        }
+      },
+    });
   }
 
-  getProductData(){
+  getProductData() {
     this.productservice.getAllProducts().subscribe({
       next: (result) => {
-        this.products = result.map((p) => ({
-          ...p,
-          icon: this.productservice.addIconsToProducts(p.ticker as string),
-          name: this.productservice.addNameToProducts(p.ticker as string),
-        })).sort((a, b) => Number(b?.lastTradedPrice) - Number(a?.lastTradedPrice));
+        this.products = result
+          .map((p) => ({
+            ...p,
+            icon: this.productservice.addIconsToProducts(p.ticker as string),
+            name: this.productservice.addNameToProducts(p.ticker as string),
+          }))
+          .sort(
+            (a, b) => Number(b?.lastTradedPrice) - Number(a?.lastTradedPrice)
+          );
 
         // console.log(this.products);
       },

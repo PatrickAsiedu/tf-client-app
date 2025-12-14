@@ -13,7 +13,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (error.status === 403) {
         // Redirect to the login page on 403 error
-        // authService.logout();
+        authService.logout();
       }
       
       // Define a user-friendly error message
